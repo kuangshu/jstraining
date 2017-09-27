@@ -34,5 +34,21 @@ describe('test index.html', function() {
       })
   });
 
-});
+  it('点击标题后验证字体为红色', function (done) {
+    var nightmare = Nightmare({ show: true });
+    nightmare
+      .goto('http://127.0.0.1:8080/index.html')
+      .click('h1')
+      .wait(1000)
+      .evaluate(function () {
+        const dom = document.querySelector('h1');
+        return window.getComputedStyle(dom);
+      })
+      .end()
+      .then(function(style) {
+        expect(style.color).to.equal('rgb(255, 0, 0)');
+        done();
+      })
+  });
 
+});
